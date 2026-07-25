@@ -1,0 +1,31 @@
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Environment and secret files
+.env
+.env.*
+!.env.example
+
+# Logs, caches, and coverage
+*.log
+.cache/
+.pytest_cache/
+.coverage
+coverage/
+htmlcov/
+
+# Language and build artifacts
+__pycache__/
+*.py[cod]
+node_modules/
+dist/
+build/
+
+# Generated TEOS artifacts
+output/*
+!output/.gitkeep
