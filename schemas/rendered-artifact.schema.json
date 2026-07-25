@@ -1,0 +1,392 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rendered-artifact.schema.json",
+  "title": "TEOS Rendered Artifact",
+  "description": "Machine-readable provenance contract for a generated document, package, feed, report, or schedule. A Rendered Artifact is reproducible and replaceable output, never an authoritative source.",
+  "type": "object",
+  "required": [
+    "artifact_id",
+    "artifact_type",
+    "artifact_version",
+    "format",
+    "generation_timestamp",
+    "generator_identity",
+    "generator_version",
+    "source_references",
+    "validation_status",
+    "reproducibility_record",
+    "lifecycle_status"
+  ],
+  "properties": {
+    "artifact_id": {
+      "$ref": "common.schema.json#/$defs/uuid",
+      "description": "Stable identity of this logical generated artifact."
+    },
+    "artifact_type": {
+      "$ref": "common.schema.json#/$defs/artifactType",
+      "description": "The canonical logical category of the artifact."
+    },
+    "artifact_version": {
+      "$ref": "common.schema.json#/$defs/semanticVersion",
+      "description": "The version of this logical output contract and result."
+    },
+    "format": {
+      "$ref": "common.schema.json#/$defs/outputFormat",
+      "description": "The generated output format, independent of artifact type."
+    },
+    "generation_timestamp": {
+      "$ref": "common.schema.json#/$defs/dateTime",
+      "description": "The timestamp at which the artifact was generated."
+    },
+    "generator_identity": {
+      "description": "The stable name or identifier of the generating component.",
+      "type": "string",
+      "minLength": 1
+    },
+    "generator_version": {
+      "$ref": "common.schema.json#/$defs/semanticVersion",
+      "description": "The exact version of the generating component."
+    },
+    "renderer": {
+      "$ref": "#/$defs/versionedComponent",
+      "description": "The renderer and exact renderer version that produced the presentation."
+    },
+    "source_references": {
+      "description": "Every exact curriculum, profile, calendar, schedule, policy, and other authoritative version that materially affected the output.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "template_reference": {
+      "$ref": "common.schema.json#/$defs/reference",
+      "description": "The exact template used to generate the artifact, when a template was used."
+    },
+    "validation_status": {
+      "description": "The recorded validation result for the generated artifact.",
+      "type": "object",
+      "required": [
+        "status",
+        "complete"
+      ],
+      "properties": {
+        "status": {
+          "description": "The artifact validation outcome.",
+          "type": "string",
+          "enum": [
+            "not-validated",
+            "passed",
+            "failed"
+          ]
+        },
+        "complete": {
+          "description": "Whether the artifact represents its requested scope completely.",
+          "type": "boolean"
+        },
+        "report_reference": {
+          "$ref": "common.schema.json#/$defs/reference",
+          "description": "A version-bound validation report when one exists."
+        },
+        "notes": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "Information explaining an incomplete, conflicted, or failed result."
+        }
+      },
+      "additionalProperties": false
+    },
+    "reproducibility_record": {
+      "$ref": "#/$defs/reproducibilityRecord",
+      "description": "The exact generation context required to reproduce equivalent output."
+    },
+    "title": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The human-readable artifact title."
+    },
+    "audience": {
+      "description": "The intended audience classification.",
+      "type": "string",
+      "minLength": 1
+    },
+    "language": {
+      "description": "The primary BCP 47 language tag of the output.",
+      "type": "string",
+      "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$"
+    },
+    "institution_profile_reference": {
+      "$ref": "common.schema.json#/$defs/reference",
+      "description": "The exact Institution Profile when it affected the artifact."
+    },
+    "academic_calendar_reference": {
+      "$ref": "common.schema.json#/$defs/reference",
+      "description": "The exact Academic Calendar when date information affected the artifact."
+    },
+    "schedule_reference": {
+      "$ref": "common.schema.json#/$defs/reference",
+      "description": "The exact schedule when placed occurrences affected the artifact."
+    },
+    "destination_profile": {
+      "$ref": "common.schema.json#/$defs/reference",
+      "description": "The exact destination compatibility profile used for export."
+    },
+    "accessibility_conformance": {
+      "description": "Accessibility standards or policies against which the artifact claims conformance.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/documentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "content_digest": {
+      "$ref": "#/$defs/checksum",
+      "description": "The content checksum used to verify generated output."
+    },
+    "package_manifest": {
+      "description": "The constituent files, roles, and digests of a multi-file artifact.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "role"
+        ],
+        "properties": {
+          "path": {
+            "description": "The artifact-relative path of the constituent file.",
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+          },
+          "role": {
+            "description": "The role of the constituent file in the package.",
+            "type": "string",
+            "minLength": 1
+          },
+          "content_digest": {
+            "$ref": "#/$defs/checksum",
+            "description": "The checksum of the constituent file when supported."
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "generation_notes": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "Non-authoritative notes about generation that do not hide validation findings."
+    },
+    "supersedes_artifact_reference": {
+      "$ref": "common.schema.json#/$defs/reference",
+      "description": "The exact earlier artifact superseded by this artifact."
+    },
+    "lifecycle_status": {
+      "$ref": "common.schema.json#/$defs/artifactLifecycleStatus",
+      "description": "The artifact-specific lifecycle state."
+    },
+    "creation_metadata": {
+      "$ref": "common.schema.json#/$defs/metadata",
+      "description": "Non-authoritative creation and provenance metadata associated with the artifact."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "artifact_id": "65b20250-ec3a-4160-9433-15d4c0ba9a85",
+      "artifact_type": "lesson-plan",
+      "artifact_version": "1.0.0",
+      "format": "pdf",
+      "generation_timestamp": "2026-07-25T14:30:00-04:00",
+      "generator_identity": "teos-artifact-generator",
+      "generator_version": "1.0.0",
+      "source_references": [
+        {
+          "object_type": "session",
+          "identifier": "36df6be2-7f21-435b-a6f4-64e701c18402",
+          "version": "1.0.0"
+        }
+      ],
+      "validation_status": {
+        "status": "passed",
+        "complete": true
+      },
+      "reproducibility_record": {
+        "source_references": [
+          {
+            "object_type": "session",
+            "identifier": "36df6be2-7f21-435b-a6f4-64e701c18402",
+            "version": "1.0.0"
+          }
+        ],
+        "generator": {
+          "identity": "teos-artifact-generator",
+          "version": "1.0.0"
+        },
+        "locale": "en-US",
+        "time_zone": "America/New_York",
+        "deterministic_ordering": {
+          "default": "Use canonical Session order."
+        },
+        "equivalence_rule": {
+          "default": "Instructional content and presentation are semantically equivalent."
+        }
+      },
+      "lifecycle_status": "validated"
+    }
+  ],
+  "x-teos-schema-version": "1.0.0",
+  "$defs": {
+    "checksum": {
+      "title": "Checksum",
+      "description": "A content checksum encoded as an algorithm name and lowercase hexadecimal digest.",
+      "type": "string",
+      "pattern": "^(?:sha256:[0-9a-f]{64}|sha384:[0-9a-f]{96}|sha512:[0-9a-f]{128})$"
+    },
+    "versionedComponent": {
+      "title": "Versioned Component",
+      "description": "The stable identity and exact semantic version of a generation component.",
+      "type": "object",
+      "required": [
+        "identity",
+        "version"
+      ],
+      "properties": {
+        "identity": {
+          "description": "The stable component name or identifier.",
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "$ref": "common.schema.json#/$defs/semanticVersion",
+          "description": "The exact component version."
+        }
+      },
+      "additionalProperties": false
+    },
+    "reproducibilityRecord": {
+      "title": "Reproducibility Record",
+      "description": "The source and generation context needed to reproduce equivalent semantic and presentation output.",
+      "type": "object",
+      "required": [
+        "source_references",
+        "generator",
+        "locale",
+        "time_zone",
+        "deterministic_ordering",
+        "equivalence_rule"
+      ],
+      "properties": {
+        "source_references": {
+          "description": "Exact source identities and versions used for generation.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/reference"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "source_digests": {
+          "description": "Checksums keyed by stable source identity when available.",
+          "type": "object",
+          "patternProperties": {
+            "^[A-Za-z0-9._:-]+$": {
+              "$ref": "#/$defs/checksum"
+            }
+          },
+          "additionalProperties": false,
+          "minProperties": 1
+        },
+        "template_reference": {
+          "$ref": "common.schema.json#/$defs/reference",
+          "description": "The exact template used when applicable."
+        },
+        "asset_references": {
+          "description": "Exact assets materially affecting the output.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/reference"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "policy_references": {
+          "description": "Exact policies materially affecting the output.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/reference"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "generator": {
+          "$ref": "#/$defs/versionedComponent",
+          "description": "The exact generator used."
+        },
+        "renderer": {
+          "$ref": "#/$defs/versionedComponent",
+          "description": "The exact renderer used when rendering is distinct from generation."
+        },
+        "destination_contract": {
+          "$ref": "common.schema.json#/$defs/reference",
+          "description": "The exact destination compatibility contract used when applicable."
+        },
+        "generation_options": {
+          "description": "Namespaced options that materially affected generation.",
+          "type": "object",
+          "patternProperties": {
+            "^x-[A-Za-z0-9._-]+$": true
+          },
+          "additionalProperties": false
+        },
+        "locale": {
+          "description": "The BCP 47 locale used during generation.",
+          "type": "string",
+          "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$"
+        },
+        "time_zone": {
+          "$ref": "common.schema.json#/$defs/timeZone",
+          "description": "The IANA time zone used during generation."
+        },
+        "deterministic_ordering": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The ordering rule applied to generated content."
+        },
+        "random_seed": {
+          "description": "The seed or equivalent deterministic input used for permitted variable generation.",
+          "type": [
+            "integer",
+            "string"
+          ]
+        },
+        "toolchain_versions": {
+          "description": "Material toolchain component versions keyed by stable component name.",
+          "type": "object",
+          "patternProperties": {
+            "^[A-Za-z0-9._-]+$": {
+              "$ref": "common.schema.json#/$defs/semanticVersion"
+            }
+          },
+          "additionalProperties": false,
+          "minProperties": 1
+        },
+        "non_deterministic_values": {
+          "description": "Declared envelope values that may differ between otherwise equivalent outputs.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "equivalence_rule": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The rule used to compare regenerated output for equivalence."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

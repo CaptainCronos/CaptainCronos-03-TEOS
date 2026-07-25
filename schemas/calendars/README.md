@@ -1,5 +1,7 @@
-# Calendars Schemas
+# Academic Calendar Schemas
 
-Machine-readable validation schemas for this TEOS object belong here.
+The first-generation Academic Calendar contract is
+[`../academic-calendar.schema.json`](../academic-calendar.schema.json).
 
-The conceptual definition must be approved before an implementation schema is added.
+This directory is reserved for future approved Academic Calendar schema
+specializations or version families.

@@ -1,5 +1,7 @@
-# Instructional units Schemas
+# Instructional Unit Schemas
 
-Machine-readable validation schemas for this TEOS object belong here.
+The first-generation Instructional Unit contract is
+[`../instructional-unit.schema.json`](../instructional-unit.schema.json).
 
-The conceptual definition must be approved before an implementation schema is added.
+This directory is reserved for future approved Instructional Unit schema
+specializations or version families.

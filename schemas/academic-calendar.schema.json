@@ -1,0 +1,441 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "academic-calendar.schema.json",
+  "title": "TEOS Academic Calendar",
+  "description": "Machine-readable contract for institution-owned academic-year boundaries, terms, instructional availability, holidays, closures, and special schedules. Academic Calendars never contain curriculum objects or curriculum sequence.",
+  "type": "object",
+  "required": [
+    "academic_calendar_id",
+    "version",
+    "owner",
+    "academic_year",
+    "terms",
+    "instructional_days",
+    "time_zone",
+    "lifecycle_status"
+  ],
+  "properties": {
+    "academic_calendar_id": {
+      "$ref": "common.schema.json#/$defs/uuid",
+      "description": "Stable identity unique within the Academic Calendar namespace."
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semanticVersion",
+      "description": "The version of this coherent set of date facts."
+    },
+    "owner": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The institution or governing authority responsible for the calendar."
+    },
+    "academic_year": {
+      "$ref": "#/$defs/academicYear",
+      "description": "The labeled, bounded date range represented by this calendar."
+    },
+    "terms": {
+      "description": "Institution-owned academic periods that organize dates, never curriculum.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/term"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "instructional_days": {
+      "description": "Explicit date or period availability records within the calendar scope.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/instructionalDay"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "time_zone": {
+      "$ref": "common.schema.json#/$defs/timeZone",
+      "description": "The IANA time zone in which calendar dates and periods are interpreted."
+    },
+    "holidays": {
+      "description": "Named or classified date conditions and their ordinary instructional status.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/holiday"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "closures": {
+      "description": "Dates or intervals during which specified institutional operations are unavailable.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/closure"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "special_schedules": {
+      "description": "Date-specific changes to ordinary operating periods or availability with explicit precedence.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/specialSchedule"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "instructional_periods": {
+      "description": "Institution-owned named operating periods available for instructional-day records.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/instructionalPeriod"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "date_annotations": {
+      "description": "Non-curriculum annotations attached to calendar dates.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "date",
+          "annotation"
+        ],
+        "properties": {
+          "date": {
+            "$ref": "common.schema.json#/$defs/date",
+            "description": "The annotated calendar date."
+          },
+          "annotation": {
+            "$ref": "common.schema.json#/$defs/localizedString",
+            "description": "The institution-owned calendar annotation."
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "source": {
+      "$ref": "common.schema.json#/$defs/documentReference",
+      "description": "The authoritative publication or controlled source for the date facts."
+    },
+    "maintainer": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The organization responsible for maintaining this calendar."
+    },
+    "revision_notes": {
+      "description": "A non-empty explanation of changes in this calendar version.",
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_status": {
+      "$ref": "common.schema.json#/$defs/lifecycleStatus",
+      "description": "The shared lifecycle state of the Academic Calendar."
+    },
+    "metadata": {
+      "$ref": "common.schema.json#/$defs/metadata",
+      "description": "Non-authoritative authorship, revision, and provenance metadata."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "academic_calendar_id": "fb799db2-cef4-4344-8ef4-6eb0ad237c8a",
+      "version": "1.0.0",
+      "owner": {
+        "identifier": "example-technical-college",
+        "name": {
+          "default": "Example Technical College"
+        }
+      },
+      "academic_year": {
+        "label": "2026-2027",
+        "start_date": "2026-07-01",
+        "end_date": "2027-06-30"
+      },
+      "terms": [
+        {
+          "term_id": "fall-2026",
+          "title": {
+            "default": "Fall 2026"
+          },
+          "start_date": "2026-08-24",
+          "end_date": "2026-12-18",
+          "classification": "semester"
+        }
+      ],
+      "instructional_days": [
+        {
+          "date": "2026-08-24",
+          "availability": "available",
+          "term_id": "fall-2026"
+        }
+      ],
+      "time_zone": "America/New_York",
+      "lifecycle_status": "draft"
+    }
+  ],
+  "x-teos-schema-version": "1.0.0",
+  "$defs": {
+    "academicYear": {
+      "title": "Academic Year",
+      "description": "An unambiguous institution-owned academic-year label and bounded date range.",
+      "type": "object",
+      "required": [
+        "label",
+        "start_date",
+        "end_date"
+      ],
+      "properties": {
+        "label": {
+          "description": "The institution-approved academic-year label.",
+          "type": "string",
+          "minLength": 1
+        },
+        "start_date": {
+          "$ref": "common.schema.json#/$defs/date",
+          "description": "The inclusive first date of the academic year."
+        },
+        "end_date": {
+          "$ref": "common.schema.json#/$defs/date",
+          "description": "The inclusive final date of the academic year."
+        }
+      },
+      "additionalProperties": false
+    },
+    "term": {
+      "title": "Academic Term",
+      "description": "An institution-owned academic period that organizes dates without organizing curriculum.",
+      "type": "object",
+      "required": [
+        "term_id",
+        "title",
+        "start_date",
+        "end_date",
+        "classification"
+      ],
+      "properties": {
+        "term_id": {
+          "description": "A stable term identity within the Academic Calendar.",
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The institution-approved term title."
+        },
+        "start_date": {
+          "$ref": "common.schema.json#/$defs/date",
+          "description": "The inclusive first date of the term."
+        },
+        "end_date": {
+          "$ref": "common.schema.json#/$defs/date",
+          "description": "The inclusive final date of the term."
+        },
+        "classification": {
+          "description": "The institution-owned term classification, such as semester, quarter, or module.",
+          "type": "string",
+          "minLength": 1
+        },
+        "overlap_relationship": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The explicitly permitted relationship when this term overlaps another term."
+        }
+      },
+      "additionalProperties": false
+    },
+    "instructionalDay": {
+      "title": "Instructional Day",
+      "description": "An explicit availability fact for a date or named instructional period.",
+      "type": "object",
+      "required": [
+        "date",
+        "availability"
+      ],
+      "properties": {
+        "date": {
+          "$ref": "common.schema.json#/$defs/date",
+          "description": "The calendar date being classified."
+        },
+        "availability": {
+          "$ref": "common.schema.json#/$defs/availabilityStatus",
+          "description": "The explicit availability of the date or period."
+        },
+        "term_id": {
+          "description": "The term identity providing context for this date.",
+          "type": "string",
+          "minLength": 1
+        },
+        "instructional_period_ids": {
+          "description": "Named instructional periods to which the availability applies.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "special_schedule_id": {
+          "description": "The special schedule governing this date when applicable.",
+          "type": "string",
+          "minLength": 1
+        },
+        "condition": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The stated condition when availability is conditional."
+        }
+      },
+      "additionalProperties": false
+    },
+    "holiday": {
+      "title": "Holiday",
+      "description": "A named or classified holiday date fact without operation-specific handling policy.",
+      "type": "object",
+      "required": [
+        "holiday_id",
+        "name",
+        "date",
+        "classification",
+        "availability"
+      ],
+      "properties": {
+        "holiday_id": {
+          "description": "A stable holiday identity within the calendar.",
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The approved holiday name."
+        },
+        "date": {
+          "$ref": "common.schema.json#/$defs/date",
+          "description": "The holiday date."
+        },
+        "classification": {
+          "description": "The institution-owned holiday classification.",
+          "type": "string",
+          "minLength": 1
+        },
+        "availability": {
+          "$ref": "common.schema.json#/$defs/availabilityStatus",
+          "description": "The ordinary instructional availability on this holiday."
+        }
+      },
+      "additionalProperties": false
+    },
+    "closure": {
+      "title": "Closure",
+      "description": "A bounded date interval during which specified institutional operations are unavailable.",
+      "type": "object",
+      "required": [
+        "closure_id",
+        "start_date",
+        "end_date",
+        "scope",
+        "reason"
+      ],
+      "properties": {
+        "closure_id": {
+          "description": "A stable closure identity within the calendar.",
+          "type": "string",
+          "minLength": 1
+        },
+        "start_date": {
+          "$ref": "common.schema.json#/$defs/date",
+          "description": "The inclusive first date of the closure."
+        },
+        "end_date": {
+          "$ref": "common.schema.json#/$defs/date",
+          "description": "The inclusive final date of the closure."
+        },
+        "scope": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The institutional operations or sites affected by the closure."
+        },
+        "reason": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The institution-owned reason for the closure."
+        }
+      },
+      "additionalProperties": false
+    },
+    "specialSchedule": {
+      "title": "Special Schedule",
+      "description": "A date-specific operating pattern or availability exception with deterministic precedence.",
+      "type": "object",
+      "required": [
+        "special_schedule_id",
+        "date",
+        "title",
+        "availability",
+        "precedence"
+      ],
+      "properties": {
+        "special_schedule_id": {
+          "description": "A stable identity for the special schedule within the calendar.",
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "$ref": "common.schema.json#/$defs/date",
+          "description": "The date on which the special schedule applies."
+        },
+        "title": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The approved title of the special schedule."
+        },
+        "availability": {
+          "$ref": "common.schema.json#/$defs/availabilityStatus",
+          "description": "The availability established by the special schedule."
+        },
+        "instructional_period_ids": {
+          "description": "The instructional periods available under the special schedule.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "precedence": {
+          "description": "The integer precedence used to resolve conflicts with general date rules; higher values take precedence.",
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "instructionalPeriod": {
+      "title": "Instructional Period",
+      "description": "A named institution-owned operating period, independent of curriculum.",
+      "type": "object",
+      "required": [
+        "instructional_period_id",
+        "title",
+        "start_time",
+        "end_time"
+      ],
+      "properties": {
+        "instructional_period_id": {
+          "description": "A stable period identity within the Academic Calendar.",
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The institution-approved period title."
+        },
+        "start_time": {
+          "$ref": "common.schema.json#/$defs/time",
+          "description": "The local start time of the period."
+        },
+        "end_time": {
+          "$ref": "common.schema.json#/$defs/time",
+          "description": "The local end time of the period."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

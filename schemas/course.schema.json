@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "course.schema.json",
+  "title": "TEOS Course",
+  "description": "Machine-readable contract for a complete curriculum offering composed of an ordered set of Instructional Units. A Course contains no institution, calendar, schedule, or renderer-owned values.",
+  "type": "object",
+  "required": [
+    "course_id",
+    "version",
+    "owner",
+    "title",
+    "description",
+    "instructional_unit_references",
+    "completion_requirements",
+    "estimated_instructional_hours",
+    "lifecycle_status"
+  ],
+  "properties": {
+    "course_id": {
+      "$ref": "common.schema.json#/$defs/uuid",
+      "description": "Stable identity unique within the Course namespace."
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semanticVersion",
+      "description": "The version of this Course contract."
+    },
+    "owner": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The curriculum owner authoritative for this Course."
+    },
+    "title": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The canonical curriculum title of the Course."
+    },
+    "description": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The purpose and instructional scope of the complete offering."
+    },
+    "catalog_information": {
+      "description": "External catalog information that supplements but does not replace Course identity.",
+      "type": "object",
+      "required": [
+        "namespace"
+      ],
+      "properties": {
+        "namespace": {
+          "description": "The authority or namespace governing the catalog values.",
+          "type": "string",
+          "minLength": 1
+        },
+        "catalog_title": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The approved external catalog title."
+        },
+        "code": {
+          "description": "The external catalog code.",
+          "type": "string",
+          "minLength": 1
+        },
+        "subject": {
+          "description": "The catalog subject designation.",
+          "type": "string",
+          "minLength": 1
+        },
+        "number": {
+          "description": "The catalog course number.",
+          "type": "string",
+          "minLength": 1
+        },
+        "level": {
+          "description": "The catalog level designation.",
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The approved catalog summary."
+        }
+      },
+      "additionalProperties": false
+    },
+    "standard_references": {
+      "description": "Version-bound Standards governing or informing the Course.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "instructional_unit_references": {
+      "description": "The non-empty ordered collection of version-bound Instructional Units. Array order is educationally significant.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "completion_requirements": {
+      "description": "Curriculum-defined, evaluable conditions for Course completion that contain no learner records.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/completionRequirement"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "estimated_instructional_hours": {
+      "$ref": "common.schema.json#/$defs/duration",
+      "description": "The expected instructional scope aggregated from selected Unit and Session versions."
+    },
+    "prerequisite_competency_references": {
+      "description": "Version-bound Competencies required before beginning the Course.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "prerequisite_course_references": {
+      "description": "Version-bound Courses required before beginning this Course.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "credit_hours": {
+      "description": "Credit hours under an explicitly identified authority and definition, distinct from estimated instructional hours.",
+      "type": "object",
+      "required": [
+        "value",
+        "authority",
+        "definition"
+      ],
+      "properties": {
+        "value": {
+          "description": "The positive number of credit hours.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "authority": {
+          "$ref": "common.schema.json#/$defs/organization",
+          "description": "The authority governing the credit-hour definition."
+        },
+        "definition": {
+          "$ref": "common.schema.json#/$defs/documentReference",
+          "description": "The applicable credit-hour definition or policy."
+        }
+      },
+      "additionalProperties": false
+    },
+    "references": {
+      "description": "Supporting publications or controlled documents.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/documentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "tags": {
+      "$ref": "common.schema.json#/$defs/tags",
+      "description": "Classification labels for the Course."
+    },
+    "maintainer": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The organization responsible for maintaining this Course."
+    },
+    "revision_notes": {
+      "description": "A non-empty explanation of changes in this version.",
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_status": {
+      "$ref": "common.schema.json#/$defs/lifecycleStatus",
+      "description": "The shared lifecycle state of the Course."
+    },
+    "metadata": {
+      "$ref": "common.schema.json#/$defs/metadata",
+      "description": "Non-authoritative authorship, revision, and provenance metadata."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "course_id": "eb6a76df-8c10-418f-bf64-690b22561723",
+      "version": "1.0.0",
+      "owner": {
+        "identifier": "example-program",
+        "name": {
+          "default": "Example Technical Program"
+        }
+      },
+      "title": {
+        "default": "Foundations of Electrical Safety"
+      },
+      "description": {
+        "default": "A complete introductory curriculum in safe electrical work practices."
+      },
+      "instructional_unit_references": [
+        {
+          "object_type": "instructional-unit",
+          "identifier": "167f4df0-cd52-4f3f-aa6d-d749336565ea",
+          "version": "1.0.0"
+        }
+      ],
+      "completion_requirements": [
+        {
+          "description": {
+            "default": "Demonstrate every required Competency against its performance criteria."
+          },
+          "requirement_type": "competency-demonstration"
+        }
+      ],
+      "estimated_instructional_hours": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "lifecycle_status": "draft"
+    }
+  ],
+  "x-teos-schema-version": "1.0.0",
+  "$defs": {
+    "completionRequirement": {
+      "title": "Completion Requirement",
+      "description": "An evaluable curriculum-defined completion condition without learner-specific results.",
+      "type": "object",
+      "required": [
+        "requirement_type",
+        "description"
+      ],
+      "properties": {
+        "requirement_type": {
+          "description": "The documented category of curriculum completion condition. The architecture does not yet define a closed vocabulary.",
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The condition that must be satisfied."
+        },
+        "references": {
+          "description": "Version-bound curriculum objects used to evaluate the condition.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/reference"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

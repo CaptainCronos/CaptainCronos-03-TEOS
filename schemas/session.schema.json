@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "session.schema.json",
+  "title": "TEOS Session",
+  "description": "Machine-readable contract for the smallest schedulable instructional event and sole canonical scheduling primitive. A Session never contains institution-specific dates, assigned times, or canonical Week or Day values.",
+  "type": "object",
+  "required": [
+    "session_id",
+    "version",
+    "owner",
+    "session_title",
+    "session_type",
+    "duration",
+    "learning_objectives",
+    "competency_references",
+    "lifecycle_status"
+  ],
+  "properties": {
+    "session_id": {
+      "$ref": "common.schema.json#/$defs/uuid",
+      "description": "Stable identity unique within the Session namespace and independent of all scheduling positions."
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semanticVersion",
+      "description": "The version of this Session contract."
+    },
+    "owner": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The curriculum owner authoritative for this Session."
+    },
+    "session_title": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The human-readable title identifying the instructional event."
+    },
+    "session_type": {
+      "$ref": "common.schema.json#/$defs/sessionType",
+      "description": "The canonical instructional mode of the Session."
+    },
+    "duration": {
+      "$ref": "common.schema.json#/$defs/duration",
+      "description": "The positive estimated instructional duration, excluding breaks and preparation."
+    },
+    "learning_objectives": {
+      "description": "Observable or assessable results for this Session.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/localizedString"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "competency_references": {
+      "description": "The non-empty collection of version-bound Competencies addressed by the Session.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "description": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "Additional curriculum-owned context for the Session purpose."
+    },
+    "mode_allocations": {
+      "description": "Explicit portions of the Session duration assigned to instructional modes.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "mode",
+          "duration"
+        ],
+        "properties": {
+          "mode": {
+            "$ref": "common.schema.json#/$defs/sessionType",
+            "description": "The instructional mode receiving this allocation."
+          },
+          "duration": {
+            "$ref": "common.schema.json#/$defs/duration",
+            "description": "The duration allocated to the instructional mode."
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_resources": {
+      "description": "Required facilities, technology, consumables, services, or capabilities without local assignments.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/resourceReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_instructor_materials": {
+      "description": "Curriculum-owned materials an instructor needs to prepare or conduct the Session.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/resourceReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_student_materials": {
+      "description": "Curriculum-owned materials learners must receive or supply.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/resourceReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_equipment": {
+      "description": "Required equipment or tool capabilities without room, inventory, or personnel assignments.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/resourceReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_safety_controls": {
+      "description": "Safety controls required before or during the Session.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/safetyReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "prerequisite_session_references": {
+      "description": "Session predecessors that must be completed before this Session.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sessionDependency"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "dependent_session_references": {
+      "description": "Session successors whose sequencing or coordination depends on this Session.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sessionDependency"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "prerequisite_competency_references": {
+      "description": "Version-bound Competencies that learners must satisfy before this Session.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "notes": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "Curriculum-owned authoring or delivery guidance that carries no hidden requirement."
+    },
+    "estimated_preparation_time": {
+      "$ref": "common.schema.json#/$defs/duration",
+      "description": "Estimated instructor preparation effort, distinct from instructional duration and staffing."
+    },
+    "rendering_metadata": {
+      "description": "Bounded, presentation-neutral hints that do not contain layout or institutional branding.",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "audiences": {
+          "description": "Audience categories for which Session content is applicable.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "display_label": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "A stable presentation-neutral display label that does not override the title."
+        },
+        "available_sections": {
+          "description": "Stable identifiers for content sections available to renderers.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "scheduling_constraints": {
+      "description": "Curriculum-owned grouping and continuity constraints consumed by a Scheduler without assigning a date.",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "may_span_occurrences": {
+          "description": "Whether the Session may be divided across multiple scheduled occurrences.",
+          "type": "boolean"
+        },
+        "may_share_occurrence": {
+          "description": "Whether the Session may share one scheduled occurrence with another Session.",
+          "type": "boolean"
+        },
+        "requires_uninterrupted_occurrence": {
+          "description": "Whether the Session must be allocated as one uninterrupted occurrence.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "references": {
+      "description": "Supporting publications or controlled documents.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/documentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "tags": {
+      "$ref": "common.schema.json#/$defs/tags",
+      "description": "Classification labels for the Session."
+    },
+    "maintainer": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The organization responsible for maintaining this Session."
+    },
+    "revision_notes": {
+      "description": "A non-empty explanation of changes in this version.",
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_status": {
+      "$ref": "common.schema.json#/$defs/lifecycleStatus",
+      "description": "The shared lifecycle state of the Session."
+    },
+    "metadata": {
+      "$ref": "common.schema.json#/$defs/metadata",
+      "description": "Non-authoritative authorship, revision, and provenance metadata."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "session_id": "36df6be2-7f21-435b-a6f4-64e701c18402",
+      "version": "1.0.0",
+      "owner": {
+        "identifier": "example-program",
+        "name": {
+          "default": "Example Technical Program"
+        }
+      },
+      "session_title": {
+        "default": "Verify Safe Working Conditions"
+      },
+      "session_type": "lab",
+      "duration": {
+        "value": 90,
+        "unit": "minutes"
+      },
+      "learning_objectives": [
+        {
+          "default": "Perform the approved electrical safety verification process."
+        }
+      ],
+      "competency_references": [
+        {
+          "object_type": "competency",
+          "identifier": "f7d21a1f-54c0-4e91-9c59-664736a86f63",
+          "version": "1.0.0"
+        }
+      ],
+      "lifecycle_status": "draft"
+    }
+  ],
+  "x-teos-schema-version": "1.0.0",
+  "$defs": {
+    "sessionDependency": {
+      "title": "Session Dependency",
+      "description": "A version-bound Session dependency with explicit scheduling semantics.",
+      "type": "object",
+      "required": [
+        "session_reference",
+        "relationship"
+      ],
+      "properties": {
+        "session_reference": {
+          "$ref": "common.schema.json#/$defs/reference",
+          "description": "The predecessor or successor Session."
+        },
+        "relationship": {
+          "description": "The documented sequencing or coordination relationship, such as before, immediately before, same meeting, non-overlap, or evidence-gated. The architecture does not yet define a closed vocabulary.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

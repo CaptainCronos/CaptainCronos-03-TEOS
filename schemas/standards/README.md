@@ -1,5 +1,7 @@
 # Standards Schemas
 
-Machine-readable validation schemas for this TEOS object belong here.
+The first-generation Standard contract is
+[`../standard.schema.json`](../standard.schema.json).
 
-The conceptual definition must be approved before an implementation schema is added.
+This directory is reserved for future approved Standard schema specializations
+or version families.

@@ -1,0 +1,468 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "common.schema.json",
+  "title": "TEOS Common Definitions",
+  "description": "Reusable JSON Schema definitions shared by TEOS object contracts. This schema is a definition library and is not itself a TEOS source object.",
+  "type": "object",
+  "required": [],
+  "properties": {},
+  "additionalProperties": false,
+  "examples": [
+    {}
+  ],
+  "x-teos-schema-version": "1.0.0",
+  "$defs": {
+    "uuid": {
+      "title": "UUID Identifier",
+      "description": "A stable TEOS identifier encoded as a UUID.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "semanticVersion": {
+      "title": "Semantic Version",
+      "description": "A semantic version identifying a compatible object, schema, renderer, generator, template, or contract revision.",
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "date": {
+      "title": "Calendar Date",
+      "description": "A full calendar date independent of a time of day.",
+      "type": "string",
+      "format": "date"
+    },
+    "dateTime": {
+      "title": "Timestamp",
+      "description": "An RFC 3339 date and time with an explicit UTC offset.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "time": {
+      "title": "Local Time",
+      "description": "A local wall-clock time used with an explicitly owned IANA time zone.",
+      "type": "string",
+      "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:\\.[0-9]+)?$"
+    },
+    "timeZone": {
+      "title": "Time Zone",
+      "description": "An IANA time-zone name.",
+      "type": "string",
+      "pattern": "^(?:UTC|[A-Za-z][A-Za-z0-9._+-]*(?:/[A-Za-z0-9._+-]+)+)$"
+    },
+    "duration": {
+      "title": "Duration",
+      "description": "A positive quantity of instructional or preparation time. It is never an assigned date, clock time, or institutional period count.",
+      "type": "object",
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "description": "The positive duration quantity.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "unit": {
+          "description": "The unit in which the duration quantity is expressed.",
+          "type": "string",
+          "enum": [
+            "minutes",
+            "hours"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "examples": [
+        {
+          "value": 90,
+          "unit": "minutes"
+        }
+      ]
+    },
+    "localizedString": {
+      "title": "Localized String",
+      "description": "Text with a required default value and optional translations keyed by BCP 47 language tag.",
+      "type": "object",
+      "required": [
+        "default"
+      ],
+      "properties": {
+        "default": {
+          "description": "The non-empty default text.",
+          "type": "string",
+          "minLength": 1
+        },
+        "translations": {
+          "description": "Alternative text keyed by BCP 47 language tag.",
+          "type": "object",
+          "patternProperties": {
+            "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false,
+          "minProperties": 1
+        }
+      },
+      "additionalProperties": false,
+      "examples": [
+        {
+          "default": "Electrical safety",
+          "translations": {
+            "es": "Seguridad eléctrica"
+          }
+        }
+      ]
+    },
+    "lifecycleStatus": {
+      "title": "Source Object Lifecycle Status",
+      "description": "The shared lifecycle state for maintained TEOS source objects.",
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "deprecated",
+        "retired"
+      ]
+    },
+    "artifactLifecycleStatus": {
+      "title": "Artifact Lifecycle Status",
+      "description": "The lifecycle state for a generated TEOS artifact.",
+      "type": "string",
+      "enum": [
+        "generated",
+        "validated",
+        "published",
+        "superseded",
+        "withdrawn"
+      ]
+    },
+    "sessionType": {
+      "title": "Session Type",
+      "description": "The canonical instructional mode of a Session.",
+      "type": "string",
+      "enum": [
+        "theory",
+        "lab",
+        "review",
+        "assessment"
+      ]
+    },
+    "artifactType": {
+      "title": "Artifact Type",
+      "description": "A canonical logical artifact category defined by the Rendered Artifact specification.",
+      "type": "string",
+      "enum": [
+        "lesson-plan",
+        "instructor-guide",
+        "student-guide",
+        "assessment",
+        "answer-key",
+        "slide-deck",
+        "lms-package",
+        "report",
+        "schedule"
+      ]
+    },
+    "outputFormat": {
+      "title": "Output Format",
+      "description": "A canonical output serialization or document format.",
+      "type": "string",
+      "enum": [
+        "docx",
+        "pdf",
+        "html",
+        "markdown",
+        "json"
+      ]
+    },
+    "availabilityStatus": {
+      "title": "Availability Status",
+      "description": "The explicit availability of an instructional date or period.",
+      "type": "string",
+      "enum": [
+        "available",
+        "unavailable",
+        "conditional"
+      ]
+    },
+    "referenceObjectType": {
+      "title": "Reference Object Type",
+      "description": "The TEOS object or separately versioned resource targeted by a reference.",
+      "type": "string",
+      "enum": [
+        "standard",
+        "competency",
+        "instructional-unit",
+        "session",
+        "course",
+        "institution-profile",
+        "academic-calendar",
+        "rendered-artifact",
+        "template",
+        "resource",
+        "document",
+        "policy",
+        "schedule",
+        "assessment",
+        "generator",
+        "renderer",
+        "asset",
+        "destination"
+      ]
+    },
+    "reference": {
+      "title": "Version-bound Reference",
+      "description": "A typed reference preserving the stable identity and exact version of its target without copying ownership.",
+      "type": "object",
+      "required": [
+        "object_type",
+        "identifier",
+        "version"
+      ],
+      "properties": {
+        "object_type": {
+          "$ref": "#/$defs/referenceObjectType",
+          "description": "The type of the referenced target."
+        },
+        "identifier": {
+          "$ref": "#/$defs/uuid",
+          "description": "The stable identifier of the referenced target."
+        },
+        "version": {
+          "$ref": "#/$defs/semanticVersion",
+          "description": "The exact intended version of the referenced target."
+        },
+        "role": {
+          "description": "The documented role the referenced target has in this relationship.",
+          "type": "string",
+          "minLength": 1
+        },
+        "locator": {
+          "description": "An optional location within the referenced target, such as a requirement section.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "examples": [
+        {
+          "object_type": "competency",
+          "identifier": "f7d21a1f-54c0-4e91-9c59-664736a86f63",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    "referenceList": {
+      "title": "Reference List",
+      "description": "A non-empty collection of unique, version-bound references.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "organization": {
+      "title": "Organization Identity",
+      "description": "An identifiable organization or governing owner.",
+      "type": "object",
+      "required": [
+        "identifier",
+        "name"
+      ],
+      "properties": {
+        "identifier": {
+          "description": "The authoritative identifier for the organization.",
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "$ref": "#/$defs/localizedString",
+          "description": "The approved name of the organization."
+        },
+        "uri": {
+          "description": "The authoritative URI for the organization when available.",
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tags": {
+      "title": "Tags",
+      "description": "Classification labels that do not replace explicit TEOS relationships.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "metadata": {
+      "title": "Source Metadata",
+      "description": "Authorship, revision, and provenance metadata that does not alter the object's canonical meaning.",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "maintainer": {
+          "$ref": "#/$defs/organization",
+          "description": "The organization responsible for maintaining this object."
+        },
+        "created_at": {
+          "$ref": "#/$defs/dateTime",
+          "description": "The timestamp at which this version was created."
+        },
+        "modified_at": {
+          "$ref": "#/$defs/dateTime",
+          "description": "The timestamp of the most recent change to this version."
+        },
+        "revision_notes": {
+          "description": "A non-empty explanation of revisions represented by this version.",
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "$ref": "#/$defs/documentReference",
+          "description": "The source from which this metadata or object was derived."
+        },
+        "extensions": {
+          "description": "Namespaced, non-authoritative extension metadata. Extension names must begin with x-.",
+          "type": "object",
+          "patternProperties": {
+            "^x-[A-Za-z0-9._-]+$": true
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "examples": [
+        {
+          "revision_notes": "Initial approved contract."
+        }
+      ]
+    },
+    "resourceReference": {
+      "title": "Resource Reference",
+      "description": "A curriculum-owned requirement for a resource capability, service, consumable, or supporting asset, without an institutional assignment.",
+      "type": "object",
+      "required": [
+        "name",
+        "requirement"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/localizedString",
+          "description": "The human-readable resource name."
+        },
+        "requirement": {
+          "$ref": "#/$defs/localizedString",
+          "description": "The educationally significant capability or material requirement."
+        },
+        "quantity": {
+          "description": "The required quantity when educationally significant.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "reference": {
+          "$ref": "#/$defs/reference",
+          "description": "A version-bound reference to a separately maintained resource."
+        }
+      },
+      "additionalProperties": false
+    },
+    "documentReference": {
+      "title": "Document Reference",
+      "description": "A citation or version-bound reference to a publication, policy, controlled document, or authoritative source.",
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/localizedString",
+          "description": "The title of the cited document."
+        },
+        "publisher": {
+          "$ref": "#/$defs/organization",
+          "description": "The publisher or governing owner of the document."
+        },
+        "uri": {
+          "description": "A resolvable URI for the document when available.",
+          "type": "string",
+          "format": "uri"
+        },
+        "publication_date": {
+          "$ref": "#/$defs/date",
+          "description": "The publication date when known."
+        },
+        "version": {
+          "description": "The official document edition or version.",
+          "type": "string",
+          "minLength": 1
+        },
+        "locator": {
+          "description": "A section, page, clause, or other location within the document.",
+          "type": "string",
+          "minLength": 1
+        },
+        "reference": {
+          "$ref": "#/$defs/reference",
+          "description": "A version-bound TEOS reference when the document is separately maintained."
+        }
+      },
+      "additionalProperties": false
+    },
+    "safetyReference": {
+      "title": "Safety Reference",
+      "description": "A required curriculum safety control stated independently of local assignments.",
+      "type": "object",
+      "required": [
+        "control_type",
+        "requirement"
+      ],
+      "properties": {
+        "control_type": {
+          "description": "The documented category of safety control. The architecture does not yet define a closed vocabulary.",
+          "type": "string",
+          "minLength": 1
+        },
+        "requirement": {
+          "$ref": "#/$defs/localizedString",
+          "description": "The control that must be satisfied before or during instruction."
+        },
+        "source": {
+          "$ref": "#/$defs/documentReference",
+          "description": "The governing safety source when applicable."
+        }
+      },
+      "additionalProperties": false
+    },
+    "assessmentReference": {
+      "title": "Assessment Reference",
+      "description": "A curriculum assessment or evidence expectation tied to one or more Competencies.",
+      "type": "object",
+      "required": [
+        "description"
+      ],
+      "properties": {
+        "description": {
+          "$ref": "#/$defs/localizedString",
+          "description": "The evidence, assessment method, or evaluation expectation."
+        },
+        "competency_references": {
+          "$ref": "#/$defs/referenceList",
+          "description": "The Competencies evaluated by this expectation."
+        },
+        "assessment_reference": {
+          "$ref": "#/$defs/reference",
+          "description": "A reference to a separately maintained assessment."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

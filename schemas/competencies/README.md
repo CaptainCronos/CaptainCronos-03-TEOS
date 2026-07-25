@@ -1,5 +1,7 @@
 # Competencies Schemas
 
-Machine-readable validation schemas for this TEOS object belong here.
+The first-generation Competency contract is
+[`../competency.schema.json`](../competency.schema.json).
 
-The conceptual definition must be approved before an implementation schema is added.
+This directory is reserved for future approved Competency schema
+specializations or version families.

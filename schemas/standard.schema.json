@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "standard.schema.json",
+  "title": "TEOS Standard",
+  "description": "Machine-readable contract for a versioned external or internal body of technical-education requirements. A Standard preserves authority and provenance without owning curriculum delivery or institutional scheduling.",
+  "type": "object",
+  "required": [
+    "standard_id",
+    "version",
+    "title",
+    "issuer",
+    "source",
+    "requirements_scope",
+    "lifecycle_status"
+  ],
+  "properties": {
+    "standard_id": {
+      "$ref": "common.schema.json#/$defs/uuid",
+      "description": "Stable TEOS identity unique within the Standard namespace."
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semanticVersion",
+      "description": "The TEOS version of this Standard contract."
+    },
+    "official_identifier": {
+      "description": "The identifier assigned by the issuing organization, when one exists.",
+      "type": "string",
+      "minLength": 1
+    },
+    "official_version": {
+      "description": "The official edition or version assigned by the issuer, distinct from the TEOS object version.",
+      "type": "string",
+      "minLength": 1
+    },
+    "issuer": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The issuing organization or internal governing owner."
+    },
+    "title": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The official or approved title of the Standard."
+    },
+    "description": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "A TEOS-maintained description that does not replace official requirement text."
+    },
+    "source": {
+      "$ref": "common.schema.json#/$defs/documentReference",
+      "description": "The authoritative publication, repository, or controlled internal source."
+    },
+    "requirements_scope": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The body or subset of requirements represented by this object."
+    },
+    "publication_date": {
+      "$ref": "common.schema.json#/$defs/date",
+      "description": "The publication date of the represented official Standard."
+    },
+    "effective_context": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The jurisdiction, program, or other context in which the Standard is effective."
+    },
+    "source_uri": {
+      "description": "A resolvable URI for the authoritative Standard source.",
+      "type": "string",
+      "format": "uri"
+    },
+    "competency_references": {
+      "description": "Version-bound Competencies governed or informed by the Standard.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "references": {
+      "description": "Supporting publications or controlled documents.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/documentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "revision": {
+      "description": "An issuer or maintainer revision label that is distinct from semantic compatibility versioning.",
+      "type": "string",
+      "minLength": 1
+    },
+    "tags": {
+      "$ref": "common.schema.json#/$defs/tags",
+      "description": "Classification labels for the Standard."
+    },
+    "owner": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The TEOS owner when different from the issuer."
+    },
+    "maintainer": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The organization responsible for maintaining this TEOS representation."
+    },
+    "revision_notes": {
+      "description": "A non-empty explanation of changes in this version.",
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_status": {
+      "$ref": "common.schema.json#/$defs/lifecycleStatus",
+      "description": "The shared lifecycle state of the Standard."
+    },
+    "metadata": {
+      "$ref": "common.schema.json#/$defs/metadata",
+      "description": "Non-authoritative authorship, revision, and provenance metadata."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "standard_id": "e55b1eab-0f7a-4958-8a69-fecb4b78feca",
+      "version": "1.0.0",
+      "official_identifier": "STD-100",
+      "issuer": {
+        "identifier": "example-board",
+        "name": {
+          "default": "Example Technical Standards Board"
+        }
+      },
+      "title": {
+        "default": "Example Electrical Safety Standard"
+      },
+      "source": {
+        "title": {
+          "default": "Example Electrical Safety Standard"
+        },
+        "uri": "https://example.org/standards/std-100"
+      },
+      "requirements_scope": {
+        "default": "Entry-level electrical safety requirements."
+      },
+      "lifecycle_status": "draft"
+    }
+  ],
+  "x-teos-schema-version": "1.0.0"
+}

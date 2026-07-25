@@ -1,5 +1,7 @@
-# Sessions Schemas
+# Session Schemas
 
-Machine-readable validation schemas for this TEOS object belong here.
+The first-generation Session contract is
+[`../session.schema.json`](../session.schema.json).
 
-The conceptual definition must be approved before an implementation schema is added.
+This directory is reserved for future approved Session schema specializations
+or version families.

@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "competency.schema.json",
+  "title": "TEOS Competency",
+  "description": "Machine-readable contract for one observable learner capability, its performance criteria, evidence expectations, prerequisites, and traceability.",
+  "type": "object",
+  "required": [
+    "competency_id",
+    "version",
+    "owner",
+    "title",
+    "description",
+    "learning_outcome",
+    "performance_criteria",
+    "assessment_evidence",
+    "lifecycle_status"
+  ],
+  "properties": {
+    "competency_id": {
+      "$ref": "common.schema.json#/$defs/uuid",
+      "description": "Stable identity unique within the Competency namespace."
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semanticVersion",
+      "description": "The version of this learner-capability contract."
+    },
+    "owner": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The curriculum owner authoritative for this Competency."
+    },
+    "title": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "A concise human-readable name for the capability."
+    },
+    "description": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The scope and context of the coherent capability."
+    },
+    "learning_outcome": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "An observable statement of what the learner will do."
+    },
+    "performance_criteria": {
+      "description": "Verifiable conditions for acceptable learner performance.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/localizedString"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "assessment_evidence": {
+      "description": "Evidence expectations capable of demonstrating the learning outcome.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/assessmentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "prerequisite_competency_references": {
+      "description": "Version-bound Competencies that must be satisfied first.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "standard_references": {
+      "description": "Version-bound Standards to which this Competency is mapped.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "references": {
+      "description": "Supporting technical publications, policies, or source materials.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/documentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "tags": {
+      "$ref": "common.schema.json#/$defs/tags",
+      "description": "Instructional or assessment classification labels."
+    },
+    "estimated_instructional_effort": {
+      "$ref": "common.schema.json#/$defs/duration",
+      "description": "A curriculum estimate of instructional effort, not a scheduled duration or guarantee."
+    },
+    "maintainer": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The organization responsible for maintaining this Competency."
+    },
+    "revision_notes": {
+      "description": "A non-empty explanation of changes in this version.",
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_status": {
+      "$ref": "common.schema.json#/$defs/lifecycleStatus",
+      "description": "The shared lifecycle state of the Competency."
+    },
+    "metadata": {
+      "$ref": "common.schema.json#/$defs/metadata",
+      "description": "Non-authoritative authorship, revision, and provenance metadata."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "competency_id": "f7d21a1f-54c0-4e91-9c59-664736a86f63",
+      "version": "1.0.0",
+      "owner": {
+        "identifier": "example-program",
+        "name": {
+          "default": "Example Technical Program"
+        }
+      },
+      "title": {
+        "default": "Verify an electrically safe work condition"
+      },
+      "description": {
+        "default": "Establish and verify safe conditions before beginning work."
+      },
+      "learning_outcome": {
+        "default": "The learner verifies an electrically safe work condition using the approved procedure."
+      },
+      "performance_criteria": [
+        {
+          "default": "Selects and applies the required verification procedure."
+        }
+      ],
+      "assessment_evidence": [
+        {
+          "description": {
+            "default": "Direct observation of the complete verification procedure."
+          }
+        }
+      ],
+      "lifecycle_status": "draft"
+    }
+  ],
+  "x-teos-schema-version": "1.0.0"
+}

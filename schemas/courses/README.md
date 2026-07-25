@@ -1,5 +1,7 @@
 # Course Schemas
 
-Machine-readable validation schemas for Course data belong here.
+The first-generation Course contract is
+[`../course.schema.json`](../course.schema.json).
 
-No schema format has been selected yet. Do not add JSON Schema, YAML Schema, or implementation-specific validation models until the conceptual Course model is approved.
+This directory is reserved for future approved Course schema specializations
+or version families.

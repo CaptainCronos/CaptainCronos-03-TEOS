@@ -1,5 +1,7 @@
-# Institutions Schemas
+# Institution Profile Schemas
 
-Machine-readable validation schemas for this TEOS object belong here.
+The first-generation Institution Profile contract is
+[`../institution-profile.schema.json`](../institution-profile.schema.json).
 
-The conceptual definition must be approved before an implementation schema is added.
+This directory is reserved for future approved Institution Profile schema
+specializations or version families.

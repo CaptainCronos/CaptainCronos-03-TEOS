@@ -1,0 +1,577 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "institution-profile.schema.json",
+  "title": "TEOS Institution Profile",
+  "description": "Machine-readable contract for versioned institution-owned identity, presentation, scheduling conventions, templates, and integration configuration. An Institution Profile supplies local context but never modifies or contains curriculum.",
+  "type": "object",
+  "required": [
+    "institution_profile_id",
+    "version",
+    "institution_information",
+    "academic_calendar_references",
+    "meeting_patterns",
+    "lifecycle_status"
+  ],
+  "properties": {
+    "institution_profile_id": {
+      "$ref": "common.schema.json#/$defs/uuid",
+      "description": "Stable identity unique within the Institution Profile namespace."
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semanticVersion",
+      "description": "The version of this coherent institutional configuration set."
+    },
+    "institution_information": {
+      "$ref": "#/$defs/institutionInformation",
+      "description": "The authoritative identity, display name, owner, and time zone of the institution."
+    },
+    "campus_information": {
+      "description": "Optional campus or site context subordinate to the institution identity.",
+      "type": "object",
+      "required": [
+        "campus_identifier",
+        "display_name"
+      ],
+      "properties": {
+        "campus_identifier": {
+          "description": "The institution-governed identifier of the campus or site.",
+          "type": "string",
+          "minLength": 1
+        },
+        "display_name": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The approved campus or site display name."
+        },
+        "address": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The approved presentation form of the campus address."
+        }
+      },
+      "additionalProperties": false
+    },
+    "branding": {
+      "description": "Approved brand characteristics and accessibility conventions; binary assets remain separate.",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "colors": {
+          "description": "Approved named brand colors expressed as six-digit hexadecimal RGB values.",
+          "type": "object",
+          "patternProperties": {
+            "^[a-z][a-z0-9-]*$": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            }
+          },
+          "additionalProperties": false,
+          "minProperties": 1
+        },
+        "typography": {
+          "description": "Approved typography guidance expressed without embedding fonts or templates.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/localizedString"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "usage_guidance": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "Approved brand usage guidance."
+        },
+        "accessibility_guidance": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "Institution-owned brand accessibility guidance."
+        }
+      },
+      "additionalProperties": false
+    },
+    "logo_references": {
+      "description": "Version-bound references to separately owned logo assets.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "template_references": {
+      "description": "Compatible, version-bound template selections by artifact, audience, campus, or destination.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/templateSelection"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "academic_calendar_references": {
+      "description": "One or more compatible, version-bound Academic Calendars.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "meeting_patterns": {
+      "description": "Institution-owned recurring delivery containers that constrain Session placement without becoming curriculum structure.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/meetingPattern"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "instructional_time_conventions": {
+      "description": "Local definitions governing how meeting time is interpreted for scheduling.",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "breaks_count_as_instructional_time": {
+          "description": "Whether scheduled breaks count toward instructional time.",
+          "type": "boolean"
+        },
+        "rounding_increment": {
+          "$ref": "common.schema.json#/$defs/duration",
+          "description": "The local duration increment used when allocating instructional time."
+        },
+        "theory_convention": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The institution-owned convention for theory delivery time."
+        },
+        "lab_convention": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The institution-owned convention for lab delivery time."
+        }
+      },
+      "additionalProperties": false
+    },
+    "holiday_references": {
+      "description": "Calendar classifications or institution-owned policies for handling holidays and closures; this collection contains no dates.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/documentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "header_definitions": {
+      "description": "Approved institutional header content applied through templates and renderers.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/localizedString"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "footer_definitions": {
+      "description": "Approved institutional footer content applied through templates and renderers.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/localizedString"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "terminology_overrides": {
+      "description": "Presentation-only mappings from canonical TEOS terms to institution-approved display labels.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "canonical_term",
+          "display_label"
+        ],
+        "properties": {
+          "canonical_term": {
+            "description": "The unchanged canonical TEOS term.",
+            "type": "string",
+            "minLength": 1
+          },
+          "display_label": {
+            "$ref": "common.schema.json#/$defs/localizedString",
+            "description": "The institution-approved presentation label."
+          },
+          "audience": {
+            "description": "The audience for which the override applies.",
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "lms_settings": {
+      "$ref": "#/$defs/lmsSettings",
+      "description": "Non-secret LMS destination mappings and compatibility configuration."
+    },
+    "export_settings": {
+      "$ref": "#/$defs/exportSettings",
+      "description": "Approved artifact, format, mapping, packaging, and accessibility configuration."
+    },
+    "local_policy_references": {
+      "description": "Versioned or citable institution-owned policy references.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/documentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "composition": {
+      "description": "Explicit profile composition and precedence with provenance for each contributing profile.",
+      "type": "object",
+      "required": [
+        "profile_references",
+        "precedence"
+      ],
+      "properties": {
+        "profile_references": {
+          "description": "Version-bound institution-wide or campus profile components.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/reference"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "precedence": {
+          "description": "A deterministic ordered list of profile identifiers from lowest to highest precedence.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/uuid"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "maintainer": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The organization responsible for maintaining this profile."
+    },
+    "revision_notes": {
+      "description": "A non-empty explanation of changes in this version.",
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_status": {
+      "$ref": "common.schema.json#/$defs/lifecycleStatus",
+      "description": "The shared lifecycle state of the Institution Profile."
+    },
+    "metadata": {
+      "$ref": "common.schema.json#/$defs/metadata",
+      "description": "Non-authoritative authorship, revision, and provenance metadata."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "institution_profile_id": "c3b242a0-05e2-43b2-82fe-0e88b4716282",
+      "version": "1.0.0",
+      "institution_information": {
+        "institution_identifier": "example-technical-college",
+        "display_name": {
+          "default": "Example Technical College"
+        },
+        "owner": {
+          "identifier": "example-technical-college",
+          "name": {
+            "default": "Example Technical College"
+          }
+        },
+        "time_zone": "America/New_York"
+      },
+      "academic_calendar_references": [
+        {
+          "object_type": "academic-calendar",
+          "identifier": "fb799db2-cef4-4344-8ef4-6eb0ad237c8a",
+          "version": "1.0.0"
+        }
+      ],
+      "meeting_patterns": [
+        {
+          "meeting_pattern_id": "daytime-mwf",
+          "title": {
+            "default": "Daytime Monday-Wednesday-Friday"
+          },
+          "time_zone": "America/New_York",
+          "eligible_weekdays": [
+            "monday",
+            "wednesday",
+            "friday"
+          ],
+          "start_time": "09:00:00",
+          "end_time": "11:00:00",
+          "recurrence": {
+            "default": "Every eligible weekday while the selected Academic Calendar is instructional."
+          }
+        }
+      ],
+      "lifecycle_status": "draft"
+    }
+  ],
+  "x-teos-schema-version": "1.0.0",
+  "$defs": {
+    "institutionInformation": {
+      "title": "Institution Information",
+      "description": "Authoritative institution identity and operating context.",
+      "type": "object",
+      "required": [
+        "institution_identifier",
+        "display_name",
+        "owner",
+        "time_zone"
+      ],
+      "properties": {
+        "institution_identifier": {
+          "description": "The authoritative identifier assigned to the institution.",
+          "type": "string",
+          "minLength": 1
+        },
+        "legal_name": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The institution's legal name."
+        },
+        "display_name": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The approved institution display name."
+        },
+        "abbreviations": {
+          "description": "Recognized institution abbreviations.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "owner": {
+          "$ref": "common.schema.json#/$defs/organization",
+          "description": "The organization authoritative for the profile."
+        },
+        "time_zone": {
+          "$ref": "common.schema.json#/$defs/timeZone",
+          "description": "The IANA time zone governing institutional operations."
+        },
+        "contact_information": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "Approved institution contact information for presentation."
+        }
+      },
+      "additionalProperties": false
+    },
+    "meetingPattern": {
+      "title": "Meeting Pattern",
+      "description": "A permitted recurring institutional delivery container.",
+      "type": "object",
+      "required": [
+        "meeting_pattern_id",
+        "title",
+        "time_zone",
+        "eligible_weekdays",
+        "start_time",
+        "end_time",
+        "recurrence"
+      ],
+      "properties": {
+        "meeting_pattern_id": {
+          "description": "A stable identifier unique within this Institution Profile.",
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The approved name of the meeting pattern."
+        },
+        "time_zone": {
+          "$ref": "common.schema.json#/$defs/timeZone",
+          "description": "The time zone in which the pattern is interpreted."
+        },
+        "eligible_weekdays": {
+          "description": "The weekdays on which the meeting pattern may occur.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday",
+              "sunday"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "start_time": {
+          "$ref": "common.schema.json#/$defs/time",
+          "description": "The local start time for the delivery container."
+        },
+        "end_time": {
+          "$ref": "common.schema.json#/$defs/time",
+          "description": "The local end time for the delivery container."
+        },
+        "recurrence": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The unambiguous institution-approved recurrence semantics."
+        },
+        "instructional_duration": {
+          "$ref": "common.schema.json#/$defs/duration",
+          "description": "The instructional duration available within the delivery container."
+        },
+        "compatible_session_types": {
+          "description": "Canonical Session types compatible with the meeting pattern.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/sessionType"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "templateSelection": {
+      "title": "Template Selection",
+      "description": "A version-bound template and the context in which it may be selected.",
+      "type": "object",
+      "required": [
+        "template_reference",
+        "artifact_type"
+      ],
+      "properties": {
+        "template_reference": {
+          "$ref": "common.schema.json#/$defs/reference",
+          "description": "The selected, version-bound template."
+        },
+        "artifact_type": {
+          "$ref": "common.schema.json#/$defs/artifactType",
+          "description": "The artifact type for which the template is approved."
+        },
+        "audience": {
+          "description": "The audience constraint for this template selection.",
+          "type": "string",
+          "minLength": 1
+        },
+        "destination": {
+          "description": "The destination constraint for this template selection.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "lmsSettings": {
+      "title": "LMS Settings",
+      "description": "Non-secret configuration for LMS mappings and compatibility.",
+      "type": "object",
+      "required": [
+        "destination_reference",
+        "compatibility_version"
+      ],
+      "properties": {
+        "destination_reference": {
+          "$ref": "common.schema.json#/$defs/reference",
+          "description": "The configured LMS destination contract."
+        },
+        "compatibility_version": {
+          "$ref": "common.schema.json#/$defs/semanticVersion",
+          "description": "The supported destination compatibility version."
+        },
+        "course_shell_convention": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The institution-approved course-shell convention."
+        },
+        "packaging_profile": {
+          "description": "The non-secret identifier of the approved packaging profile.",
+          "type": "string",
+          "minLength": 1
+        },
+        "identifier_mappings": {
+          "description": "Stable source-to-destination identifier mappings.",
+          "type": "object",
+          "patternProperties": {
+            "^[A-Za-z0-9._:-]+$": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false,
+          "minProperties": 1
+        },
+        "content_placement_rules": {
+          "description": "Institution-owned, non-secret content placement rules.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/localizedString"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "exportSettings": {
+      "title": "Export Settings",
+      "description": "Approved output and destination configuration that does not change source meaning.",
+      "type": "object",
+      "required": [
+        "artifact_types",
+        "output_formats"
+      ],
+      "properties": {
+        "artifact_types": {
+          "description": "Artifact types approved for export.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/artifactType"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "output_formats": {
+          "description": "Output formats approved for export.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/outputFormat"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "destination_reference": {
+          "$ref": "common.schema.json#/$defs/reference",
+          "description": "The version-bound export destination contract."
+        },
+        "naming_convention": {
+          "$ref": "common.schema.json#/$defs/localizedString",
+          "description": "The institution-approved output naming convention."
+        },
+        "packaging_options": {
+          "description": "Non-secret, namespaced packaging options.",
+          "type": "object",
+          "patternProperties": {
+            "^x-[A-Za-z0-9._-]+$": true
+          },
+          "additionalProperties": false
+        },
+        "accessibility_requirements": {
+          "description": "Accessibility requirements applicable to exported artifacts.",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/documentReference"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

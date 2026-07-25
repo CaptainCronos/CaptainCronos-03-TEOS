@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "instructional-unit.schema.json",
+  "title": "TEOS Instructional Unit",
+  "description": "Machine-readable contract for a coherent, reusable grouping of Competencies and its ordered Session sequence. Instructional Units contain no institutional dates or meeting patterns.",
+  "type": "object",
+  "required": [
+    "instructional_unit_id",
+    "version",
+    "owner",
+    "title",
+    "description",
+    "included_competency_references",
+    "learning_objectives",
+    "session_references",
+    "estimated_duration",
+    "assessment_strategy",
+    "lifecycle_status"
+  ],
+  "properties": {
+    "instructional_unit_id": {
+      "$ref": "common.schema.json#/$defs/uuid",
+      "description": "Stable identity unique within the Instructional Unit namespace."
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semanticVersion",
+      "description": "The version of this Instructional Unit contract."
+    },
+    "owner": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The curriculum owner authoritative for this Instructional Unit."
+    },
+    "title": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The human-readable title of the Instructional Unit."
+    },
+    "description": {
+      "$ref": "common.schema.json#/$defs/localizedString",
+      "description": "The instructional purpose and scope of the Unit."
+    },
+    "included_competency_references": {
+      "description": "The non-empty collection of version-bound Competencies included in the Unit.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "learning_objectives": {
+      "description": "Observable or assessable results intended for the Unit.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/localizedString"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "session_references": {
+      "description": "A non-empty ordered sequence of version-bound Sessions. Array order is educationally significant.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "estimated_duration": {
+      "$ref": "common.schema.json#/$defs/duration",
+      "description": "The estimated instructional duration aggregated for the Unit."
+    },
+    "assessment_strategy": {
+      "description": "The assessment and evidence strategy connected to included Competencies.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/assessmentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_resources": {
+      "description": "Unit-level resource requirements that supplement rather than weaken Session requirements.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/resourceReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_equipment": {
+      "description": "Unit-level equipment or tool-capability requirements without institutional inventory assignments.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/resourceReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_safety_controls": {
+      "description": "Unit-level safety controls that supplement rather than weaken Session controls.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/safetyReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "prerequisite_competency_references": {
+      "description": "Version-bound Competencies that must be satisfied before the Unit.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "prerequisite_instructional_unit_references": {
+      "description": "Version-bound Instructional Units that must precede this Unit.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/reference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "references": {
+      "description": "Supporting publications or controlled documents.",
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/documentReference"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "tags": {
+      "$ref": "common.schema.json#/$defs/tags",
+      "description": "Classification labels for the Instructional Unit."
+    },
+    "maintainer": {
+      "$ref": "common.schema.json#/$defs/organization",
+      "description": "The organization responsible for maintaining this Unit."
+    },
+    "revision_notes": {
+      "description": "A non-empty explanation of changes in this version.",
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_status": {
+      "$ref": "common.schema.json#/$defs/lifecycleStatus",
+      "description": "The shared lifecycle state of the Instructional Unit."
+    },
+    "metadata": {
+      "$ref": "common.schema.json#/$defs/metadata",
+      "description": "Non-authoritative authorship, revision, and provenance metadata."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "instructional_unit_id": "167f4df0-cd52-4f3f-aa6d-d749336565ea",
+      "version": "1.0.0",
+      "owner": {
+        "identifier": "example-program",
+        "name": {
+          "default": "Example Technical Program"
+        }
+      },
+      "title": {
+        "default": "Electrical Work Safety"
+      },
+      "description": {
+        "default": "Develops the competencies required to establish safe working conditions."
+      },
+      "included_competency_references": [
+        {
+          "object_type": "competency",
+          "identifier": "f7d21a1f-54c0-4e91-9c59-664736a86f63",
+          "version": "1.0.0"
+        }
+      ],
+      "learning_objectives": [
+        {
+          "default": "Apply the approved electrical safety process."
+        }
+      ],
+      "session_references": [
+        {
+          "object_type": "session",
+          "identifier": "36df6be2-7f21-435b-a6f4-64e701c18402",
+          "version": "1.0.0"
+        }
+      ],
+      "estimated_duration": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "assessment_strategy": [
+        {
+          "description": {
+            "default": "Observe the learner applying the full safety process."
+          }
+        }
+      ],
+      "lifecycle_status": "draft"
+    }
+  ],
+  "x-teos-schema-version": "1.0.0"
+}
