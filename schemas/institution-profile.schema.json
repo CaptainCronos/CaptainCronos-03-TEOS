@@ -90,7 +90,7 @@
       "description": "Version-bound references to separately owned logo assets.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/reference"
+        "$ref": "common.schema.json#/$defs/assetReference"
       },
       "minItems": 1,
       "uniqueItems": true
@@ -108,7 +108,7 @@
       "description": "One or more compatible, version-bound Academic Calendars.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/reference"
+        "$ref": "common.schema.json#/$defs/academicCalendarReference"
       },
       "minItems": 1,
       "uniqueItems": true
@@ -215,7 +215,20 @@
       "description": "Versioned or citable institution-owned policy references.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/documentReference"
+        "allOf": [
+          {
+            "$ref": "common.schema.json#/$defs/documentReference"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reference": {
+                "$ref": "common.schema.json#/$defs/policyReference",
+                "description": "The version-bound Policy object when the cited policy is separately maintained."
+              }
+            }
+          }
+        ]
       },
       "minItems": 1,
       "uniqueItems": true
@@ -232,7 +245,7 @@
           "description": "Version-bound institution-wide or campus profile components.",
           "type": "array",
           "items": {
-            "$ref": "common.schema.json#/$defs/reference"
+            "$ref": "common.schema.json#/$defs/institutionProfileReference"
           },
           "minItems": 1,
           "uniqueItems": true
@@ -448,7 +461,7 @@
       ],
       "properties": {
         "template_reference": {
-          "$ref": "common.schema.json#/$defs/reference",
+          "$ref": "common.schema.json#/$defs/templateReference",
           "description": "The selected, version-bound template."
         },
         "artifact_type": {
@@ -478,7 +491,7 @@
       ],
       "properties": {
         "destination_reference": {
-          "$ref": "common.schema.json#/$defs/reference",
+          "$ref": "common.schema.json#/$defs/destinationReference",
           "description": "The configured LMS destination contract."
         },
         "compatibility_version": {
@@ -546,7 +559,7 @@
           "uniqueItems": true
         },
         "destination_reference": {
-          "$ref": "common.schema.json#/$defs/reference",
+          "$ref": "common.schema.json#/$defs/destinationReference",
           "description": "The version-bound export destination contract."
         },
         "naming_convention": {

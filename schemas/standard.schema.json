@@ -69,7 +69,7 @@
       "description": "Version-bound Competencies governed or informed by the Standard.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/reference"
+        "$ref": "common.schema.json#/$defs/competencyReference"
       },
       "minItems": 1,
       "uniqueItems": true

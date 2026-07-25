@@ -62,7 +62,7 @@
       "description": "Version-bound Competencies that must be satisfied first.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/reference"
+        "$ref": "common.schema.json#/$defs/competencyReference"
       },
       "minItems": 1,
       "uniqueItems": true
@@ -71,7 +71,7 @@
       "description": "Version-bound Standards to which this Competency is mapped.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/reference"
+        "$ref": "common.schema.json#/$defs/standardReference"
       },
       "minItems": 1,
       "uniqueItems": true

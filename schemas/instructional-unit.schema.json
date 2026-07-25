@@ -42,7 +42,7 @@
       "description": "The non-empty collection of version-bound Competencies included in the Unit.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/reference"
+        "$ref": "common.schema.json#/$defs/competencyReference"
       },
       "minItems": 1,
       "uniqueItems": true
@@ -60,7 +60,7 @@
       "description": "A non-empty ordered sequence of version-bound Sessions. Array order is educationally significant.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/reference"
+        "$ref": "common.schema.json#/$defs/sessionReference"
       },
       "minItems": 1,
       "uniqueItems": true
@@ -109,7 +109,7 @@
       "description": "Version-bound Competencies that must be satisfied before the Unit.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/reference"
+        "$ref": "common.schema.json#/$defs/competencyReference"
       },
       "minItems": 1,
       "uniqueItems": true
@@ -118,7 +118,7 @@
       "description": "Version-bound Instructional Units that must precede this Unit.",
       "type": "array",
       "items": {
-        "$ref": "common.schema.json#/$defs/reference"
+        "$ref": "common.schema.json#/$defs/instructionalUnitReference"
       },
       "minItems": 1,
       "uniqueItems": true

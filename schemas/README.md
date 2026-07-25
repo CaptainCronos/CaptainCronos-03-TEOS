@@ -87,6 +87,13 @@ semantic version, and its applicable lifecycle status. References preserve the
 target type, UUID, and exact version. Ordered arrays are used where order has
 educational or operational meaning.
 
+The generic `reference` definition is used only when a relationship
+intentionally accepts multiple target object types. Relationships with one
+approved target type use a reusable typed reference definition. Each typed
+reference preserves the generic reference envelope and constrains
+`object_type` with `const`, so a structurally valid reference to the wrong
+domain object is rejected.
+
 Object schemas reject unknown properties with `additionalProperties: false`.
 The only intentional general extension points are namespaced metadata or
 generation options whose keys begin with `x-`. Optional collections, when
@@ -102,3 +109,17 @@ JSON Schema validates object-local structure. The architectural separations
 among curriculum, institutions, calendars, schedules, and artifacts remain
 normative even where a single schema cannot evaluate the full relationship
 graph.
+
+## Contract validation
+
+Run `python scripts/validate_schemas.py` from the repository root to validate
+the schema contracts. The check parses every repository JSON file, validates
+each schema against the Draft 2020-12 metaschema, resolves every local `$ref`,
+and validates every embedded positive example against its own schema.
+
+The same check includes focused negative cases for wrong target object types.
+These cases confirm that Course references are rejected from Session
+Competency fields, Competency references are rejected from Session
+dependencies, Academic Calendar references are rejected from Course
+Instructional Unit fields, and Session references are rejected from
+Institution Profile Academic Calendar fields.

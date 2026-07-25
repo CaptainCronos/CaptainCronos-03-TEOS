@@ -214,7 +214,7 @@
     },
     "reference": {
       "title": "Version-bound Reference",
-      "description": "A typed reference preserving the stable identity and exact version of its target without copying ownership.",
+      "description": "A generic version-bound reference preserving the stable identity, declared type, and exact version of its target without copying ownership. Use only for intentionally polymorphic relationships.",
       "type": "object",
       "required": [
         "object_type",
@@ -254,9 +254,351 @@
         }
       ]
     },
+    "standardReference": {
+      "title": "Standard Reference",
+      "description": "A version-bound reference that targets only a Standard.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "standard"
+            }
+          }
+        }
+      ]
+    },
+    "competencyReference": {
+      "title": "Competency Reference",
+      "description": "A version-bound reference that targets only a Competency.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "competency"
+            }
+          }
+        }
+      ]
+    },
+    "instructionalUnitReference": {
+      "title": "Instructional Unit Reference",
+      "description": "A version-bound reference that targets only an Instructional Unit.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "instructional-unit"
+            }
+          }
+        }
+      ]
+    },
+    "sessionReference": {
+      "title": "Session Reference",
+      "description": "A version-bound reference that targets only a Session.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "session"
+            }
+          }
+        }
+      ]
+    },
+    "courseReference": {
+      "title": "Course Reference",
+      "description": "A version-bound reference that targets only a Course.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "course"
+            }
+          }
+        }
+      ]
+    },
+    "institutionProfileReference": {
+      "title": "Institution Profile Reference",
+      "description": "A version-bound reference that targets only an Institution Profile.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "institution-profile"
+            }
+          }
+        }
+      ]
+    },
+    "academicCalendarReference": {
+      "title": "Academic Calendar Reference",
+      "description": "A version-bound reference that targets only an Academic Calendar.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "academic-calendar"
+            }
+          }
+        }
+      ]
+    },
+    "renderedArtifactReference": {
+      "title": "Rendered Artifact Reference",
+      "description": "A version-bound reference that targets only a Rendered Artifact.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "rendered-artifact"
+            }
+          }
+        }
+      ]
+    },
+    "templateReference": {
+      "title": "Template Reference",
+      "description": "A version-bound reference that targets only a Template.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "template"
+            }
+          }
+        }
+      ]
+    },
+    "resourceObjectReference": {
+      "title": "Resource Object Reference",
+      "description": "A version-bound reference that targets only a separately maintained Resource object.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "resource"
+            }
+          }
+        }
+      ]
+    },
+    "documentObjectReference": {
+      "title": "Document Object Reference",
+      "description": "A version-bound reference that targets only a separately maintained Document object.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "document"
+            }
+          }
+        }
+      ]
+    },
+    "policyReference": {
+      "title": "Policy Reference",
+      "description": "A version-bound reference that targets only a Policy.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "policy"
+            }
+          }
+        }
+      ]
+    },
+    "scheduleReference": {
+      "title": "Schedule Reference",
+      "description": "A version-bound reference that targets only a Schedule.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "schedule"
+            }
+          }
+        }
+      ]
+    },
+    "assessmentObjectReference": {
+      "title": "Assessment Object Reference",
+      "description": "A version-bound reference that targets only a separately maintained Assessment object.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "assessment"
+            }
+          }
+        }
+      ]
+    },
+    "generatorReference": {
+      "title": "Generator Reference",
+      "description": "A version-bound reference that targets only a Generator.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "generator"
+            }
+          }
+        }
+      ]
+    },
+    "rendererReference": {
+      "title": "Renderer Reference",
+      "description": "A version-bound reference that targets only a Renderer.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "renderer"
+            }
+          }
+        }
+      ]
+    },
+    "assetReference": {
+      "title": "Asset Reference",
+      "description": "A version-bound reference that targets only an Asset.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "asset"
+            }
+          }
+        }
+      ]
+    },
+    "destinationReference": {
+      "title": "Destination Reference",
+      "description": "A version-bound reference that targets only a Destination.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "required": [
+            "object_type"
+          ],
+          "properties": {
+            "object_type": {
+              "const": "destination"
+            }
+          }
+        }
+      ]
+    },
     "referenceList": {
       "title": "Reference List",
-      "description": "A non-empty collection of unique, version-bound references.",
+      "description": "A non-empty collection of unique, generic version-bound references for an intentionally polymorphic relationship.",
       "type": "array",
       "items": {
         "$ref": "#/$defs/reference"
@@ -368,7 +710,7 @@
           "exclusiveMinimum": 0
         },
         "reference": {
-          "$ref": "#/$defs/reference",
+          "$ref": "#/$defs/resourceObjectReference",
           "description": "A version-bound reference to a separately maintained resource."
         }
       },
@@ -411,7 +753,7 @@
         },
         "reference": {
           "$ref": "#/$defs/reference",
-          "description": "A version-bound TEOS reference when the document is separately maintained."
+          "description": "A generic version-bound TEOS reference when the cited publication, policy, controlled document, or source is separately maintained. The permitted target types intentionally match this polymorphic citation wrapper."
         }
       },
       "additionalProperties": false
@@ -454,12 +796,17 @@
           "description": "The evidence, assessment method, or evaluation expectation."
         },
         "competency_references": {
-          "$ref": "#/$defs/referenceList",
-          "description": "The Competencies evaluated by this expectation."
+          "description": "The Competencies evaluated by this expectation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/competencyReference"
+          },
+          "minItems": 1,
+          "uniqueItems": true
         },
         "assessment_reference": {
-          "$ref": "#/$defs/reference",
-          "description": "A reference to a separately maintained assessment."
+          "$ref": "#/$defs/assessmentObjectReference",
+          "description": "A version-bound reference to a separately maintained Assessment object."
         }
       },
       "additionalProperties": false
