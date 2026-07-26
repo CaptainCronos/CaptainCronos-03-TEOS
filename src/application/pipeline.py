@@ -17,7 +17,6 @@ from src.api.services import ApplicationServices
 from src.api.status import OperationStatus, PipelineStage
 from src.compiler import CompiledRepository
 from src.generators import GeneratedFile
-from src.rendering import RenderedArtifact
 from src.repository import Repository
 from src.scheduler import ScheduledRepository
 
@@ -244,4 +243,3 @@ def _generated_file_result(value: GeneratedFile) -> GeneratedFileResult:
         value.size_bytes,
         value.generation_timestamp,
     )
-

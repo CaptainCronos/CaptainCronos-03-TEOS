@@ -15,16 +15,28 @@ Thumbs.db
 *.log
 .cache/
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.nox/
 .coverage
+.coverage.*
 coverage/
 htmlcov/
+coverage.xml
+junit.xml
 
 # Language and build artifacts
 __pycache__/
 *.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
 node_modules/
 dist/
 build/
+*.whl
 
 # Generated TEOS artifacts
 output/*

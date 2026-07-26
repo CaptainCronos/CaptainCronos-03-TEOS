@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-from copy import deepcopy
 from dataclasses import FrozenInstanceError
 from pathlib import Path
 

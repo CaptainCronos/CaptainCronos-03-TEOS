@@ -6,7 +6,6 @@ import importlib
 import importlib.util
 import sys
 from dataclasses import dataclass
-from pathlib import Path
 from types import ModuleType
 from typing import Any
 

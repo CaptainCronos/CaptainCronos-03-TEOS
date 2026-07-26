@@ -22,7 +22,6 @@ from src.api import (
 )
 
 from .contracts import (
-    CapabilityKind,
     DiagnosticKind,
     DiagnosticSeverity,
     FormatCapability,
