@@ -156,6 +156,7 @@ def test_configuration_precedence_extensions_and_immutability(
         (CommandName.BUILD, "generation", "document generated"),
     ),
 )
+@pytest.mark.end_to_end
 def test_pipeline_commands_execute_only_the_required_prefix(
     tmp_path: Path,
     command: CommandName,
@@ -216,6 +217,7 @@ def test_progress_and_structured_logging_output() -> None:
     )
 
 
+@pytest.mark.smoke
 def test_invalid_command_help_and_version_output(capsys) -> None:
     """Syntax, generated help, and the version command are stable."""
     with pytest.raises(UserInputError):
@@ -243,3 +245,20 @@ def test_main_reports_invalid_command_without_traceback() -> None:
     assert stdout.getvalue() == ""
     assert "invalid choice" in stderr.getvalue()
     assert "Traceback" not in stderr.getvalue()
+
+
+@pytest.mark.smoke
+def test_json_syntax_failure_is_machine_readable() -> None:
+    """Explicit JSON mode applies even when argument parsing fails."""
+    stdout = io.StringIO()
+    stderr = io.StringIO()
+
+    status = main(
+        ["--json", "unknown"], stdout=stdout, stderr=stderr, environ={}
+    )
+
+    assert status == 2
+    assert stdout.getvalue() == ""
+    diagnostic = json.loads(stderr.getvalue())
+    assert "invalid choice" in diagnostic["error"]
+    assert diagnostic["details"] == {}

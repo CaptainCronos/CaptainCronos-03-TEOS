@@ -68,6 +68,12 @@ minversion = "8.3"
 addopts = ["--strict-config", "--strict-markers"]
 testpaths = ["tests"]
 pythonpath = ["."]
+markers = [
+    "unit: isolated behavior with no filesystem or component integration",
+    "integration: interaction between multiple TEOS components or filesystem boundaries",
+    "smoke: fast verification of a critical public command or surface",
+    "end_to_end: complete workflow across the public application boundary",
+]
 
 [tool.ruff]
 target-version = "py311"

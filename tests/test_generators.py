@@ -83,6 +83,7 @@ def test_default_registry_and_unsupported_selection() -> None:
         (OutputFormat.MARKDOWN, "schedule.md", b"# "),
     ),
 )
+@pytest.mark.integration
 def test_all_formats_create_files_with_verified_checksums(
     tmp_path: Path,
     output_format: OutputFormat,

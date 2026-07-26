@@ -343,6 +343,7 @@ def test_typed_references_fix_their_target_type() -> None:
 
 
 @pytest.mark.parametrize("value", [0, -1])
+@pytest.mark.unit
 def test_duration_must_be_positive(value: int) -> None:
     """Duration enforces its object-local positivity invariant."""
     with pytest.raises(ValueError, match="positive"):

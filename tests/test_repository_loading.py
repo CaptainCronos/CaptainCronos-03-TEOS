@@ -87,6 +87,7 @@ def exact_competency_reference(
     }
 
 
+@pytest.mark.integration
 def test_successful_repository_load(tmp_path: Path) -> None:
     """Schema-valid cross-file references construct immutable objects."""
     target = competency()

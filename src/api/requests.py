@@ -118,12 +118,15 @@ class InspectRequest(RepositoryRequest):
     """Request a stable repository inventory."""
 
 
+DEFAULT_SCHEMA_PATH = Path(__file__).resolve().parents[2] / "schemas"
+
+
 @dataclass(frozen=True, slots=True)
 class DoctorRequest(ApplicationRequest):
     """Request read-only application readiness checks."""
 
     repository_path: Path = Path(".")
-    schema_path: Path = Path("schemas")
+    schema_path: Path = DEFAULT_SCHEMA_PATH
 
     def __post_init__(self) -> None:
         ApplicationRequest.__post_init__(self)

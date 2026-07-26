@@ -235,6 +235,19 @@ def test_inspection_doctor_plugins_and_versions(tmp_path: Path) -> None:
     assert SUPPORTED_CONTRACT_VERSION == "1.0"
 
 
+@pytest.mark.smoke
+def test_default_doctor_schema_path_is_independent_of_working_directory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Packaged schema readiness does not depend on the invocation directory."""
+    monkeypatch.chdir(tmp_path)
+
+    request = DoctorRequest()
+
+    assert request.schema_path.is_dir()
+    assert tuple(request.schema_path.glob("*.schema.json"))
+
+
 def test_default_services_implement_every_public_contract() -> None:
     """Published protocols accept the default application adapters."""
     services = default_services()

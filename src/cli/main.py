@@ -27,9 +27,14 @@ def main(
     """Run one CLI invocation and return its process exit status."""
     output_stream = sys.stdout if stdout is None else stdout
     error_stream = sys.stderr if stderr is None else stderr
-    writer = OutputWriter(output_stream, error_stream)
+    arguments = tuple(sys.argv[1:] if argv is None else argv)
+    writer = OutputWriter(
+        output_stream,
+        error_stream,
+        json_output="--json" in arguments,
+    )
     try:
-        parsed = parse_arguments(argv)
+        parsed = parse_arguments(arguments)
         configuration = load_configuration(
             parsed.configuration_path,
             overrides=dict(parsed.overrides),
