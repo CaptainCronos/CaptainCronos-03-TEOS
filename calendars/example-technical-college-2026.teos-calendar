@@ -1,0 +1,39 @@
+{
+  "calendar_id": "example-technical-college-2026",
+  "version": "1.0.0",
+  "system": "semester",
+  "periods": [
+    {
+      "id": "fall-2026",
+      "name": "Fall 2026",
+      "start_date": "2026-08-24",
+      "end_date": "2026-12-18"
+    }
+  ],
+  "days": [
+    {
+      "date": "2026-08-24",
+      "kind": "instructional",
+      "name": "First Instructional Day"
+    },
+    {
+      "date": "2026-09-07",
+      "kind": "holiday",
+      "name": "Institution Holiday"
+    },
+    {
+      "date": "2026-10-12",
+      "kind": "break",
+      "name": "Fall Break"
+    },
+    {
+      "date": "2026-12-14",
+      "kind": "make-up",
+      "name": "Approved Make-up Day"
+    }
+  ],
+  "metadata": {
+    "academic_year": "2026-2027",
+    "authority": "Example Academic Affairs"
+  }
+}

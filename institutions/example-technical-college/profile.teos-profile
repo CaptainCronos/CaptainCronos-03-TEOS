@@ -1,0 +1,121 @@
+{
+  "contract_version": "1.0",
+  "profile_id": "example-technical-college",
+  "version": "1.0.0",
+  "teos_compatibility": ">=1.1.0,<2.0.0",
+  "metadata": {
+    "institution_id": "example-technical-college",
+    "name": "Example Technical College",
+    "legal_name": "Example Technical College",
+    "time_zone": "America/New_York",
+    "abbreviations": [
+      "ETC"
+    ],
+    "identifiers": {
+      "catalog": "ETC"
+    },
+    "contact": {
+      "address": "100 Example Way, Example, NY 10001",
+      "phone": "+1-555-0100",
+      "email": "curriculum@example.test",
+      "website": "https://example.test"
+    }
+  },
+  "branding": {
+    "display_name": "Example Technical College",
+    "assets": [
+      {
+        "id": "primary-logo",
+        "kind": "logo",
+        "path": "institutions/example-technical-college/assets/primary-logo.svg",
+        "required": true,
+        "alt_text": "Example Technical College"
+      }
+    ],
+    "colors": {
+      "primary": "#17365D",
+      "secondary": "#D9EAF7"
+    },
+    "fonts": [
+      "Noto Sans",
+      "Noto Serif"
+    ],
+    "headers": [
+      "Example Technical College"
+    ],
+    "footers": [
+      "Controlled curriculum document"
+    ],
+    "copyright_text": "Copyright Example Technical College",
+    "revision_text": "Verify the current revision before use."
+  },
+  "calendar_sources": [
+    "calendars/example-technical-college-2026.teos-calendar"
+  ],
+  "grading": {
+    "system": "letter",
+    "grade_bands": [
+      {
+        "label": "A",
+        "minimum": 90
+      },
+      {
+        "label": "B",
+        "minimum": 80
+      },
+      {
+        "label": "C",
+        "minimum": 70
+      },
+      {
+        "label": "F",
+        "minimum": 0
+      }
+    ],
+    "weighted_categories": [
+      {
+        "id": "assessments",
+        "name": "Assessments",
+        "weight": 60
+      },
+      {
+        "id": "practical",
+        "name": "Practical Work",
+        "weight": 40
+      }
+    ],
+    "attendance_policy": "Attendance is recorded for every scheduled session.",
+    "late_submission_policy": "Late work requires documented instructor approval.",
+    "passing_threshold": 70
+  },
+  "terminology": {
+    "overrides": {
+      "Instructor": "Faculty Member",
+      "Lab": "Technical Laboratory",
+      "Student": "Learner"
+    }
+  },
+  "templates": {
+    "selections": [
+      {
+        "id": "default-lesson-plan",
+        "kind": "lesson-plan",
+        "path": "templates/example-technical-college/lesson-plan.md",
+        "version": "1.0.0",
+        "format": "markdown",
+        "default": true
+      }
+    ]
+  },
+  "policies": {
+    "revision_policy": "Every approved change creates a profile revision.",
+    "document_numbering": "ETC-{artifact}-{year}-{sequence}",
+    "approval_workflow": [
+      "department-review",
+      "academic-affairs-approval"
+    ],
+    "record_retention": "Retain superseded controlled documents for seven years.",
+    "naming_convention": "{course}-{artifact}-{revision}",
+    "output_directory_default": "output/example-technical-college"
+  }
+}
