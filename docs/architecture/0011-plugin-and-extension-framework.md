@@ -4,11 +4,15 @@
 - Scope: Define the isolated extension boundary above the standalone TEOS
   application.
 
+> Integration update: architecture 0012 publishes `src.api` and
+> `src.api.contracts` as an additional supported plugin-consumption boundary.
+> Plugin lifecycle and isolation behavior in this record are unchanged.
+
 ## Architectural boundary
 
 ```text
 Repository → Validation → Compilation → Scheduling → Rendering
-    → Document Generation → CLI → Plugin Framework
+    → Document Generation → Public Application API → CLI / Plugin Framework
 ```
 
 The plugin framework consumes stable public interfaces and exposes extensions

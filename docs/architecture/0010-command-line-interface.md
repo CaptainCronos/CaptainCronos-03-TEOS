@@ -4,11 +4,16 @@
 - Scope: Define the local user-facing orchestration boundary over the completed
   TEOS curriculum and document-generation pipeline.
 
+> Integration update: architecture 0012 moves pipeline assembly into the
+> Public Application API. The CLI responsibilities and terminal behavior in
+> this record remain accepted; the CLI application now delegates equivalent
+> operations to `TEOSApplication`.
+
 ## Architectural boundary
 
 ```text
 Command arguments + configuration
-    → CLI application
+    → CLI application → Public Application API
     → Repository loading and validation
     → Compilation
     → Scheduling
