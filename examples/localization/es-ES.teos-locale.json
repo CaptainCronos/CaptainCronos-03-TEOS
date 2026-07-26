@@ -1,0 +1,93 @@
+{
+  "resource_id": "teos.language.es-es",
+  "version": "1.0.0",
+  "contract_version": "1.0",
+  "description": "Example Spanish language and Spain locale pack",
+  "locale_id": "es-ES",
+  "layer": "language",
+  "language": {
+    "code": "es",
+    "name": "Spanish",
+    "native_name": "Español",
+    "script": "Latn",
+    "direction": "ltr"
+  },
+  "locale": {
+    "culture": "Español (España)",
+    "region": {
+      "code": "ES",
+      "name": "Spain"
+    },
+    "script": "Latn",
+    "fallback": "en-US",
+    "conventions": {
+      "date_pattern": "%d/%m/%Y",
+      "time_pattern": "%H:%M",
+      "date_order": "dmy",
+      "hour_cycle": "h24",
+      "paper_size": "a4",
+      "measurement_system": "metric",
+      "page_direction": "ltr",
+      "decimal_separator": ",",
+      "thousands_separator": ".",
+      "primary_quotes": ["«", "»"],
+      "secondary_quotes": ["“", "”"],
+      "numbering_digits": "0123456789",
+      "default_time_zone": "Europe/Madrid",
+      "default_currency": "EUR",
+      "currencies": [
+        {
+          "code": "EUR",
+          "symbol": "€",
+          "symbol_position": "after",
+          "space": true,
+          "decimal_places": 2
+        }
+      ],
+      "unit_labels": {
+        "centimeter": "cm",
+        "kilogram": "kg",
+        "meter": "m"
+      }
+    }
+  },
+  "translations": {
+    "count.sessions": {
+      "one": "{count} sesión",
+      "other": "{count} sesiones"
+    },
+    "document.course_title": "Curso",
+    "document.generated_on": "Generado el {date}"
+  },
+  "terminology": {
+    "Assessment": "Evaluación",
+    "Certificate": "Certificado",
+    "Course": "Curso",
+    "Instructor": "Instructor",
+    "Lab": "Laboratorio",
+    "Lesson": "Lección",
+    "Module": "Módulo",
+    "Quiz": "Cuestionario",
+    "Student": "Estudiante",
+    "Workshop": "Taller"
+  },
+  "plural_rule": {
+    "cases": [
+      {
+        "category": "one",
+        "any_of": [
+          [
+            {
+              "operand": "i",
+              "ranges": [[1, 1]]
+            },
+            {
+              "operand": "v",
+              "ranges": [[0, 0]]
+            }
+          ]
+        ]
+      }
+    ]
+  }
+}
