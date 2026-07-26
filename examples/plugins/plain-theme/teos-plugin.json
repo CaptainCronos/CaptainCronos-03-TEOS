@@ -1,0 +1,14 @@
+{
+  "id": "org.example.plain-theme",
+  "version": "1.0.0",
+  "name": "Plain Theme",
+  "author": "Example Institution",
+  "license": "MIT",
+  "teos": ">=1.1.0,<2.0.0",
+  "capabilities": [
+    "theme"
+  ],
+  "dependencies": [],
+  "permissions": [],
+  "entry_point": "plugin.py:PlainThemePlugin"
+}
