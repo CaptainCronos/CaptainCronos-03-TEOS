@@ -1,0 +1,28 @@
+theme_id: example.technical-college.engineering
+version: 1.0.0
+contract_version: "1.0"
+layer: institution
+description: Presentation-only Engineering Department branding override
+extends: example.technical-college
+branding:
+  department_name: Engineering Technologies
+  department_logo: department.engineering.logo
+  revision_block: department.engineering.revision
+  contact:
+    department: Engineering Technologies
+    email: engineering@example.edu
+assets:
+  - id: department.engineering.logo
+    kind: logo
+    uri: assets/example-technical-college/engineering-logo.svg
+    media_type: image/svg+xml
+  - id: department.engineering.revision
+    kind: graphic
+    uri: assets/example-technical-college/engineering-revision.svg
+    media_type: image/svg+xml
+styles:
+  document.emphasis:
+    extends: document.base
+    properties:
+      foreground: accent
+      font_weight: 800

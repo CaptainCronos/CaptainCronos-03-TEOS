@@ -1,0 +1,177 @@
+{
+  "theme_id": "example.technical-college",
+  "version": "1.0.0",
+  "contract_version": "1.0",
+  "layer": "theme",
+  "description": "Reusable presentation identity for Example Technical College",
+  "branding": {
+    "institution_name": "Example Technical College",
+    "logo": "institution.logo",
+    "seal": "institution.seal",
+    "watermark": "institution.watermark",
+    "header": "institution.header",
+    "footer": "institution.footer",
+    "contact": {
+      "organization": "Example Technical College",
+      "address": "100 Learning Way, Example City, NY 10000",
+      "phone": "+1-555-0100",
+      "email": "info@example.edu",
+      "website": "https://www.example.edu"
+    }
+  },
+  "typography": {
+    "families": {
+      "body": {
+        "name": "Source Sans 3",
+        "fallbacks": ["Arial", "sans-serif"]
+      },
+      "mono": {
+        "name": "Source Code Pro",
+        "fallbacks": ["Courier New", "monospace"]
+      }
+    },
+    "body": {
+      "family": "body",
+      "size_pt": 11,
+      "line_spacing": 1.15,
+      "paragraph_after_pt": 6
+    },
+    "headings": {
+      "h1": {
+        "family": "body",
+        "size_pt": 22,
+        "weight": 700,
+        "color": "primary",
+        "paragraph_after_pt": 10
+      },
+      "h2": {
+        "family": "body",
+        "size_pt": 16,
+        "weight": 700,
+        "color": "secondary",
+        "paragraph_after_pt": 8
+      }
+    },
+    "caption": {
+      "family": "body",
+      "size_pt": 9,
+      "italic": true
+    },
+    "code": {
+      "family": "mono",
+      "size_pt": 9.5
+    },
+    "table": {
+      "family": "body",
+      "size_pt": 10
+    }
+  },
+  "palette": {
+    "primary": "#17365D",
+    "secondary": "#365F91",
+    "accent": "#F2A900",
+    "warning": "#B45309",
+    "success": "#166534",
+    "error": "#B91C1C",
+    "neutral": "#F3F4F6",
+    "print_safe": {
+      "primary": "#000000",
+      "accent": "#666666"
+    },
+    "high_contrast": {
+      "primary": "#000000",
+      "background": "#FFFFFF",
+      "accent": "#005FCC"
+    }
+  },
+  "assets": [
+    {
+      "id": "institution.logo",
+      "kind": "logo",
+      "uri": "assets/example-technical-college/logo.svg",
+      "media_type": "image/svg+xml"
+    },
+    {
+      "id": "institution.seal",
+      "kind": "seal",
+      "uri": "assets/example-technical-college/seal.svg",
+      "media_type": "image/svg+xml"
+    },
+    {
+      "id": "institution.watermark",
+      "kind": "watermark",
+      "uri": "assets/example-technical-college/watermark.svg",
+      "media_type": "image/svg+xml"
+    },
+    {
+      "id": "institution.header",
+      "kind": "banner",
+      "uri": "assets/example-technical-college/header.svg",
+      "media_type": "image/svg+xml"
+    },
+    {
+      "id": "institution.footer",
+      "kind": "graphic",
+      "uri": "assets/example-technical-college/footer.svg",
+      "media_type": "image/svg+xml"
+    }
+  ],
+  "styles": {
+    "document.base": {
+      "properties": {
+        "foreground": "primary",
+        "background": "neutral"
+      }
+    },
+    "document.emphasis": {
+      "extends": "document.base",
+      "properties": {
+        "foreground": "accent",
+        "font_weight": 700
+      }
+    },
+    "table.standard": {
+      "properties": {
+        "header_background": "secondary",
+        "header_foreground": "#FFFFFF",
+        "cell_padding_pt": 4
+      }
+    }
+  },
+  "layouts": [
+    {"id": "lesson.standard", "artifact_kind": "lesson-plan", "regions": ["header", "content", "footer"], "style_refs": ["document.base"]},
+    {"id": "assessment.standard", "artifact_kind": "assessment", "regions": ["header", "instructions", "items", "footer"], "style_refs": ["document.base"]},
+    {"id": "lab.standard", "artifact_kind": "lab", "regions": ["header", "safety", "procedure", "results"], "style_refs": ["document.base"]},
+    {"id": "quiz.standard", "artifact_kind": "quiz", "regions": ["header", "items", "footer"], "style_refs": ["document.base"]},
+    {"id": "worksheet.standard", "artifact_kind": "worksheet", "regions": ["header", "content", "footer"], "style_refs": ["document.base"]},
+    {"id": "report.standard", "artifact_kind": "report", "regions": ["cover", "content", "footer"], "style_refs": ["document.base", "table.standard"]},
+    {"id": "certificate.landscape", "artifact_kind": "certificate", "orientation": "landscape", "regions": ["content"], "style_refs": ["document.emphasis"]},
+    {"id": "attendance.standard", "artifact_kind": "attendance-form", "orientation": "landscape", "regions": ["header", "table"], "style_refs": ["table.standard"]},
+    {"id": "grades.standard", "artifact_kind": "grade-sheet", "orientation": "landscape", "regions": ["header", "table"], "style_refs": ["table.standard"]}
+  ],
+  "templates": [
+    {
+      "id": "lesson.docx",
+      "artifact_kind": "lesson-plan",
+      "output_format": "docx",
+      "uri": "templates/example-technical-college/lesson-plan.docx",
+      "layout_ref": "lesson.standard",
+      "style_refs": ["document.base"],
+      "required_assets": ["institution.logo"]
+    },
+    {
+      "id": "lesson.default",
+      "artifact_kind": "lesson-plan",
+      "uri": "templates/example-technical-college/lesson-plan",
+      "layout_ref": "lesson.standard",
+      "required_assets": ["institution.logo"]
+    },
+    {
+      "id": "report.default",
+      "artifact_kind": "report",
+      "uri": "templates/example-technical-college/report",
+      "layout_ref": "report.standard",
+      "required_assets": ["institution.logo"]
+    }
+  ]
+}
